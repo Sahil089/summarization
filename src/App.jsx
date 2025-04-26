@@ -1,10 +1,12 @@
 
+import { useState } from 'react'
 import './App.css'
 import FileOutput from './component/FileOutput'
 import FileUploader from './component/FileUploader'
 
 function App() {
-  
+  const [processedText,setProcessText]=useState('')
+  const [isLoading,setIsLoading] = useState(false);
 
   return (
 <div>
@@ -18,10 +20,10 @@ function App() {
   </div>
 
   <div>
-    <FileUploader/>
+    <FileUploader setisLoading ={setIsLoading} onprocessedText={setProcessText}/>
   </div>
   <div>
-    <FileOutput/>
+    <FileOutput isLoading={isLoading} processedText={processedText}/>
   </div>
 </div>
   )
