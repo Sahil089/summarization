@@ -6,32 +6,13 @@ const Generater = () => {
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const generateImage = async () => {
-    setLoading(true);
-    const response = await fetch(
-      "https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0",
-      {
-        headers: {
-          Authorization: "Bearer ",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          inputs: prompt,
-          options: {
-            wait_for_model: true,
-          },
-        }),
-      }
-    );
-    const blob = await response.blob();
-    const imageurl = URL.createObjectURL(blob);
-    setImage(imageurl);
-    setLoading(false);
-  };
+
+const generateImage =async ()=>{
+    
+}
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-purple-900 via-black to-purple-700 overflow-y-auto">
+    <section className="h-screen bg-gradient-to-br from-purple-900 via-black to-purple-700">
       <motion.div
         initial={{ opacity: 0, y: 80 }}
         animate={{ opacity: 1, y: 50 }}
@@ -61,7 +42,6 @@ const Generater = () => {
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 1.08 }}
-          onClick={generateImage}
           className="w-full bg-gradient-to-r border from-purple-600 to placeholder-purple-800 text-white rounded-md py-2 font-semibold mt-4"
         >
           {loading ? (
@@ -77,25 +57,6 @@ const Generater = () => {
             "Generate Image"
           )}
         </motion.button>
-        {image &&(
-            
-                <motion.div
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 50 }}
-                className="mt-4"
-                >
-                    <motion.img
-                    src={image}
-                    alt="Generated AI Image"
-                    className="w-full rounded-lg shadow-2xl"
-                    />
-
-
-                    
-
-                    
-                </motion.div>
-        )}
       </motion.div>
     </section>
   );
