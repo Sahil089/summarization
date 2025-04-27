@@ -8,17 +8,21 @@ const Generater = () => {
 
   const generateImage = async () => {
     setLoading(true);
-    const payload={
-        prompt:prompt
-    }
     const response = await fetch(
-      "http://localhost:5000/generate-image",{
+      "https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-xl-base-1.0",
+      {
         headers: {
+          Authorization: "Bearer ",
           "Content-Type": "application/json",
         },
         method: "POST",
-        body: JSON.stringify(payload)
-    }
+        body: JSON.stringify({
+          inputs: prompt,
+          options: {
+            wait_for_model: true,
+          },
+        }),
+      }
     );
     const blob = await response.blob();
     const imageurl = URL.createObjectURL(blob);
