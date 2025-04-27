@@ -10,6 +10,9 @@ function FileUploader({onprocessedText,setisLoading}) {
   const [fileName, setFileName] = useState("");
   const [extractedText, setExtractedText] = useState("");
   const [error, seterror] = useState("");
+  const [userInput, setuserInput] = useState("");
+
+console.log(userInput);
 
   useEffect(() => {
     GlobalWorkerOptions.workerSrc = pdfWorker;
@@ -69,21 +72,9 @@ function FileUploader({onprocessedText,setisLoading}) {
 
   const summarization = async (text) => {
     const API_URL =
-      "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn";
-    const API_KEY = "api key ";
-    const prompt = `Please read the following document and provide a section-wise summary, dividing the content into the following parts:
-
-Introduction: Briefly explain the background and purpose of the document.
-
-Main Content / Body: Summarize the key ideas, findings, or discussions presented.
-
-Conclusion / Summary: Highlight the final takeaways, results, or recommendations.
-
-Your summary should be clear, concise, and capture the core message of each section. Avoid unnecessary details or repetition.
-return me in markdown format
-
-Document:
-${text.substring(0, 1000)}`;
+      "https://router.huggingface.co/hf-inference/models/meta-llama/Llama-4-Scout-17B-16E-Instruct";
+    const API_KEY = "api key";
+    const prompt = ` You have give a Text of Document Document Text:${text.substring(0, 1000)} ${userInput} Format the output in markdown format `;
 
     const response = await fetch(API_URL, {
       method: "POST",
@@ -134,6 +125,10 @@ ${text.substring(0, 1000)}`;
           {error && (
             <div className="text-center text-red-600 text-sm">{error}</div>
           )}
+          <div className="border-2 rounded-md py-2 px-1 border-purple-400 ">
+          <input value={userInput} onChange={(e)=>{setuserInput(e.target.value)}}  type="text" placeholder="Enter Your Prompt . . ."/>
+          </div>
+          
           <button
             type="submit"
             className="w-full bg-purple-500 text-white py-2 px-5 rounded-md  cursor-pointer"
